@@ -7,19 +7,8 @@ public class TankWalls : MonoBehaviour
     [Header("Tank settings")]
     public float m_width = 15f;
     public float m_height = 3.75f;
-    public int fishCount = 10;
-    [Header("Fish settings")]
-    [SerializeField]private float m_maxSpeed = 7f;
-    [SerializeField]private float m_minSpeed = 1f;
-    [SerializeField]private float m_minDistance = 1f;
-    [SerializeField]private float m_rotation = 0f;
-    [SerializeField][Range(0f, 0.5f)] private float m_weightAllign = 0.1f;
-    [SerializeField][Range(0f, 0.5f)]private float m_weightCenter = 0.1f;
-    [SerializeField][Range(0f, 0.5f)]private float m_weightKeepDistance = 0.1f;
-    [SerializeField][Range(0f, 0.5f)]private float m_weightObstacles = 0.3f;
-    [SerializeField][Range(0f, 0.5f)]private float m_speedNoiseIntensity = 0.5f;
-    [SerializeField][Range(0f, 1f)]private float m_speedNoisePeriod = 0.3f;
-    [Space]
+    [Range(5, 150)] public int fishCount = 10;
+
     public GameObject fishPrefab;
     public GameObject m_shark;
 
@@ -43,6 +32,7 @@ public class TankWalls : MonoBehaviour
     {
         teleportOnBorder();
     }
+
 
 
     private GameObject spawnEntity(GameObject prefab){

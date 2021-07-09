@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4629790010104676408}
   - component: {fileID: 4629790010104676411}
   - component: {fileID: 4629790010104676410}
-  - component: {fileID: 4629790010104676413}
   - component: {fileID: 4749107803741841212}
   - component: {fileID: 5384119805615265291}
+  - component: {fileID: 4817908050594199311}
   m_Layer: 0
   m_Name: Fish
   m_TagString: Fish
@@ -106,29 +106,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &4629790010104676413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4629790010104676412}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 849403deea223fe42a023c1b6bba1111, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_initialSpeed: 4
-  m_maxSpeed: 5
-  m_minSpeed: 2.5
-  m_minDistance: 1.2
-  m_rotation: 0
-  m_weightAllign: 0.07
-  m_weightCenter: 0.05
-  m_weightKeepDistance: 0.087
-  m_weightObstacles: 0.095
-  m_speedNoiseIntensity: 0.462
-  m_speedNoisePeriod: 0.54
 --- !u!114 &4749107803741841212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,3 +134,15 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 2.5
+--- !u!114 &4817908050594199311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4629790010104676412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 107aa01668eb8a342974c07d5da79e5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

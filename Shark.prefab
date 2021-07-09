@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2408053171920105108}
   - component: {fileID: 2408053171920105109}
   - component: {fileID: 2408053171920105111}
-  - component: {fileID: -8288235379085895107}
+  - component: {fileID: -1129535485334433474}
   m_Layer: 0
   m_Name: Shark
   m_TagString: Shark
@@ -121,7 +121,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.5
---- !u!114 &-8288235379085895107
+--- !u!114 &-1129535485334433474
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,9 +130,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2408053171920105104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d90065575d22a944acce6a3dfcc19f5, type: 3}
+  m_Script: {fileID: 11500000, guid: 38d2cd6e92bdda24d9ac5b930d95011c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_speed: 0
-  m_turnNoiseIntensity: 40
-  m_turnNoisePeriod: 2

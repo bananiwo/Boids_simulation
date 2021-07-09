@@ -34,8 +34,8 @@ public class TankWalls : MonoBehaviour
             m_objects.Add(fish.transform);
         }
 
-        m_shark = spawnEntity(m_shark);
-        m_objects.Add(m_shark.transform);
+         m_shark = spawnEntity(m_shark);
+         m_objects.Add(m_shark.transform);
     }
 
     

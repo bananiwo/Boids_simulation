@@ -8,19 +8,26 @@ public class TankWalls : MonoBehaviour
     public float m_width = 15f;
     public float m_height = 3.75f;
     [Range(5, 150)] public int fishCount = 10;
+    [Header("Fish settings")]
+
+
+
 
     public GameObject fishPrefab;
     public GameObject m_shark;
 
     private List<Transform> m_objects;
+    private List<GameObject> m_fishes;
     
     void Start()
     {
         m_objects = new List<Transform>();
+        m_fishes = new List<GameObject>();
 
         for(int i=0; i<fishCount; i++){
             GameObject fish = spawnEntity(fishPrefab);
             m_objects.Add(fish.transform);
+            m_fishes.Add(fish);
         }
 
          m_shark = spawnEntity(m_shark);
@@ -31,9 +38,8 @@ public class TankWalls : MonoBehaviour
     void FixedUpdate()
     {
         teleportOnBorder();
+
     }
-
-
 
     private GameObject spawnEntity(GameObject prefab){
         Vector2 spawnPos = new Vector2(Random.Range(-m_width, m_width), Random.Range(-m_height, m_height));

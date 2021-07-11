@@ -10,14 +10,7 @@ public class FishMovement : BasicMovement
     private float m_weightCenter = 0.1f;
     private float m_weightKeepDistance = 0.1f;
 
-    private List<GameObject> closebyFish = new List<GameObject>();
-
-    protected override void Start()
-    {
-        base.Start();
-    }
-
-    override protected void FixedUpdate()
+    /*override protected void FixedUpdate()
     {   
         base.FixedUpdate();
         if(closebyFish.Count > 0){
@@ -25,29 +18,7 @@ public class FishMovement : BasicMovement
             centerToFlock();
             keepDistance();
         }
-    }
-
-   override protected void OnTriggerEnter2D(Collider2D other)
-   {
-       base.OnTriggerEnter2D(other);
-       if(other.tag == "Fish"){
-            closebyFish.Add(other.gameObject);
-       }
-        if(other.tag == "Shark"){
-            closebyObstacles.Add(other.gameObject);
-       }
-   }
-
-    override protected void OnTriggerExit2D(Collider2D other)
-    {
-        base.OnTriggerExit2D(other);
-        if(other.tag == "Fish"){
-            closebyFish.Remove(other.gameObject);
-        }
-        if(other.tag == "Shark"){
-            closebyObstacles.Remove(other.gameObject);
-       }
-    }
+    }*/
 
     private void allignToFlock(){
         float newVX = m_rb.velocity.x + m_weightAllign * (avgFlockVelX() - m_rb.velocity.x);

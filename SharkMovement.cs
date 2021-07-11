@@ -12,12 +12,8 @@ public class SharkMovement : BasicMovement
     private float angle = 0f;
     private bool right = true;
 
-    protected override void Start()
-    {
-        base.Start();
-    }
 
-    protected override void FixedUpdate()
+    /*protected override void FixedUpdate()
     {
 ////////////////////////// turn
         turnTimer += Time.fixedDeltaTime;
@@ -42,7 +38,7 @@ public class SharkMovement : BasicMovement
         //avoidObstacles();
         //regulateSpeedMinMax();
         // faceVelocity();
-    }
+    }*/
 
     override protected void OnTriggerEnter2D(Collider2D other)
    {

@@ -110,7 +110,7 @@ public class FlockMovement : MonoBehaviour
 
     private Vector2 allignToFlock(GameObject entity)
     {
-        if(entity.GetComponent<BasicMovement>().closebyFish.Count == 0)
+        if(entity.GetComponent<BasicMovement>().getClosebyFishCount() == 0)
         {
             return new Vector2(0,0);
         }
@@ -122,7 +122,7 @@ public class FlockMovement : MonoBehaviour
 
     private Vector2 centerToFlock(GameObject entity)
     {
-        if(entity.GetComponent<BasicMovement>().closebyFish.Count == 0)
+        if(entity.GetComponent<BasicMovement>().getClosebyFishCount() == 0)
         {
             return new Vector2(0,0);
         }
@@ -133,7 +133,7 @@ public class FlockMovement : MonoBehaviour
     }
 
     private Vector2 keepDistanceInFlock(GameObject entity){
-        if(entity.GetComponent<BasicMovement>().closebyFish.Count == 0)
+        if(entity.GetComponent<BasicMovement>().getClosebyFishCount() == 0)
         {
             return new Vector2(0,0);
         }
@@ -145,7 +145,7 @@ public class FlockMovement : MonoBehaviour
         float myPosX = entity.transform.position.x;
         float myPosY = entity.transform.position.y;
 
-        foreach(var neighbour in bm.closebyFish){
+        foreach(var neighbour in bm.getClosebyFish()){
             float tempX = neighbour.transform.position.x;
             float tempY = neighbour.transform.position.y;
             float distance = Mathf.Sqrt((tempX-myPosX)*(tempX-myPosX)+(tempY-myPosY)*(tempY-myPosY));
@@ -163,54 +163,54 @@ public class FlockMovement : MonoBehaviour
 
     private float avgFlockVelX(GameObject entity){
         BasicMovement bm = entity.GetComponent<BasicMovement>();
-        if(bm.closebyFish.Count == 0)
+        if(bm.getClosebyFishCount() == 0)
         {
             return 0;
         }
         float avgVX = 0f;
-        foreach(var fish in bm.closebyFish){
+        foreach(var fish in bm.getClosebyFish()){
             avgVX += fish.GetComponent<Rigidbody2D>().velocity.x;
         }
-        return avgVX / bm.closebyFish.Count;
+        return avgVX / bm.getClosebyFishCount();
     }
 
     private float avgFlockVelY(GameObject entity){
         BasicMovement bm = entity.GetComponent<BasicMovement>();
-        if(bm.closebyFish.Count == 0)
+        if(bm.getClosebyFishCount() == 0)
         {
             return 0;
         }
         float avgVY = 0f;
-        foreach(var fish in bm.closebyFish){
+        foreach(var fish in bm.getClosebyFish()){
             avgVY += fish.GetComponent<Rigidbody2D>().velocity.y;
         }
-        return avgVY / bm.closebyFish.Count;
+        return avgVY / bm.getClosebyFishCount();
     }
 
     private float avgFlockPosX(GameObject entity){
         BasicMovement bm = entity.GetComponent<BasicMovement>();
-        if(bm.closebyFish.Count == 0)
+        if(bm.getClosebyFishCount() == 0)
         {
             return 0;
         }
         float avgX = 0f;
-        foreach(var fish in bm.closebyFish){
+        foreach(var fish in bm.getClosebyFish()){
             avgX += fish.transform.position.x;
         }
-        return avgX / bm.closebyFish.Count;
+        return avgX / bm.getClosebyFishCount();
     }
 
     private float avgFlockPosY(GameObject entity){
         BasicMovement bm = entity.GetComponent<BasicMovement>();
-        if(bm.closebyFish.Count == 0)
+        if(bm.getClosebyFishCount() == 0)
         {
             return 0;
         }
         float avgY = 0f;
-        foreach(var fish in bm.closebyFish){
+        foreach(var fish in bm.getClosebyFish()){
             avgY += fish.transform.position.y;
         }
-        return avgY / bm.closebyFish.Count;
+        return avgY / bm.getClosebyFishCount();
     }
 
     protected Vector2 wander(GameObject entity)

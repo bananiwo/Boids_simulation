@@ -13,7 +13,7 @@ public class BasicMovement : MonoBehaviour
     public float m_wanderTimer;
     protected float m_minDistance = 1f;
     public List<GameObject> closebyObstacles = new List<GameObject>();
-    public List<GameObject> closebyFish = new List<GameObject>();
+    protected List<GameObject> closebyFish = new List<GameObject>();
     public Rigidbody2D m_rb;
 
     private bool touchOuterRimLeft = false;
@@ -78,5 +78,13 @@ public class BasicMovement : MonoBehaviour
        if(other.tag == "Fish"){
             closebyFish.Remove(other.gameObject);
         }
+    }
+    public List<GameObject> getClosebyFish()
+    {
+        return closebyFish;
+    }
+    public int getClosebyFishCount()
+    {
+        return closebyFish.Count;
     }
 }

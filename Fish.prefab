@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 4749107803741841212}
   - component: {fileID: 5384119805615265291}
   - component: {fileID: -3829818945398868434}
+  - component: {fileID: 2692194536519956216}
+  - component: {fileID: 8523813214658227832}
   m_Layer: 0
   m_Name: Fish
   m_TagString: Fish
@@ -73,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: e2c8daa093f743e4cac248b067409397, type: 3}
   m_Color: {r: 0.27634388, g: 0.8490566, b: 0.38737997, a: 1}
   m_FlipX: 1
@@ -146,15 +148,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a1bb6c0d677c4048b558b1f0b5efebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxSpeed: 3
-  m_minSpeed: 1
-  m_constantSpeed: 2
-  m_minDistance: 1
-  m_weightObstacles: 0.2
-  m_speedNoiseIntensity: 0.5
-  m_speedNoisePeriod: 0.3
-  m_directionNoiseIntensity: 0.3
-  m_keepConstantSpeed: 0
-  rateOfVelChangeDuration: 0
+  newVY: 0
+  newVX: 0
   velocityNoiseTimer: 0
   rateOfVelChangeTimer: 0
+  m_wanderTimer: 0
+  detectedObstaclesList: []
+  m_isObstacleDetected: 0
+  m_colLeft: {fileID: 2692194536519956216}
+  m_colRight: {fileID: 8523813214658227832}
+--- !u!68 &2692194536519956216
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4629790010104676412}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.6, y: 2.5}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: 0, y: 0}
+  - {x: 11, y: 0}
+--- !u!68 &8523813214658227832
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4629790010104676412}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.6, y: -2.5}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: 0, y: 0}
+  - {x: 11, y: 0}

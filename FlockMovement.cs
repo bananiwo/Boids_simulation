@@ -21,6 +21,12 @@ public class FlockMovement : MonoBehaviour
     [SerializeField] [Range(0f, 3f)]
     protected float m_rimAvoidanceCoeff = 0.5f;
 
+    [Header("Obstacle avoidance settings")]
+    [SerializeField] [Range(0f, 10f)]
+    private float m_obstacleAvoidanceWeight = 3f;
+    [SerializeField] [Range(0.1f, 10f)]
+    private float m_obstacleAvoidanceSmoothness = 1f;
+
     [Header("Wander settings")]
     [SerializeField] [Range(0.1f, 10f)]
     private float m_wanderSmoothness = 4f;
@@ -74,16 +80,45 @@ public class FlockMovement : MonoBehaviour
     {
         foreach(var entity in m_entities)
         {
-            // avoidObstacles(entity);
-            // avoidOuterRim(entity);
             Rigidbody2D rb = entity.GetComponent<Rigidbody2D>();
-            Vector2 newVelocity = rb.velocity + m_weightWander * wander(entity) + m_weightAllign * allignToFlock(entity) + m_weightCenter * centerToFlock(entity) + m_weightKeepDistance * keepDistanceInFlock(entity);
-            newVelocity = regulateVelocityMinMax(newVelocity);
-            rb.velocity = newVelocity;
+            // Vector2 newVelocity = rb.velocity + m_weightWander * wander(entity) + m_weightAllign * allignToFlock(entity) + m_weightCenter * centerToFlock(entity) + m_weightKeepDistance * keepDistanceInFlock(entity);
+
+            Vector2 velocityChange = rb.velocity +  m_obstacleAvoidanceWeight * obstacleAvoidance(entity);
+                     
+            velocityChange = regulateVelocityMinMax(velocityChange);
+            rb.velocity = velocityChange;
             faceTowardsVelocity(entity);
             stayInCamera(entity);
         }
     }
+
+    protected Vector2 obstacleAvoidance(GameObject entity)
+    {
+        movementScript = entity.GetComponent<BasicMovement>();
+        if(movementScript.getObstacleDetected() == Obstacle.N)
+        {
+            movementScript.resetObstacleAvoidanceTimer();
+            return Vector2.zero;
+        }
+        Rigidbody2D rb = entity.GetComponent<Rigidbody2D>(); 
+
+        Debug.Log("UNIK W PRAWO");
+        Vector2 initialVelocity = movementScript.getInitialVelocityOnTargetDetection();
+        Vector2 steer = new Vector2(initialVelocity.y, -initialVelocity.x).normalized;
+        if(movementScript.getObstacleDetected() == Obstacle.R){
+            Debug.Log("UNIK W LEWO");
+            steer *= -1;
+        }
+        movementScript.incrementObstacleAvoidanceTimer();
+        Vector2 smoothSteer = Vector2.Lerp(Vector2.zero, steer * m_obstacleAvoidanceWeight, movementScript.getObstacleAvoidanceTimer() / m_obstacleAvoidanceSmoothness);
+        return smoothSteer;
+
+
+        // jesli udalo sie osiagnac wektor predkosci rowny poczatkowemu, to poczekaj pol sekundy i
+        // movementScript.setObstacleDetected(Obstacle.N);
+    }
+
+
 
     private void stayInCamera(GameObject entity) // teleport
     {
@@ -244,32 +279,6 @@ public class FlockMovement : MonoBehaviour
         return result;
     }
 
-    protected Vector2 avoidObstacles(GameObject entity)
-    {
-        movementScript = entity.GetComponent<BasicMovement>();
-        Rigidbody2D rb = entity.GetComponent<Rigidbody2D>(); 
-        if(movementScript.closebyObstacles.Count == 0) return new Vector2(0f ,0f);
-
-        float targetPosX = 0;
-        float targetPosY = 0;
-        float distanceToClosest = 9999999;
-        float myPosX = transform.position.x;
-        float myPosY = transform.position.y;
-
-        foreach(var obstacle in movementScript.closebyObstacles){
-            float tempX = obstacle.transform.position.x;
-            float tempY = obstacle.transform.position.y;
-            float distance = Mathf.Sqrt((tempX-myPosX)*(tempX-myPosX)+(tempY-myPosY)*(tempY-myPosY));
-            if(distance < distanceToClosest){
-                distanceToClosest = distance;
-                targetPosX = obstacle.transform.position.x;
-                targetPosY = obstacle.transform.position.y;
-            }
-        }
-        float newVX = - ((targetPosX-myPosX)*m_minDistance/distanceToClosest + (targetPosX-myPosX));
-        float newVY = - ((targetPosY-myPosY)*m_minDistance/distanceToClosest + (targetPosY-myPosY));
-        return new Vector2(newVX, newVY); 
-    }
 
     protected Vector2 regulateVelocityMinMax(Vector2 vel)
     {
@@ -300,6 +309,8 @@ public class FlockMovement : MonoBehaviour
         float avoidRimSpawnCoefficient = 0.8f;
         Vector2 spawnPos = new Vector2(Random.Range(-m_width, m_width), Random.Range(-m_height, m_height)) * avoidRimSpawnCoefficient;
         GameObject entity = Instantiate(prefab, spawnPos, Quaternion.Euler(0, 0, Random.Range(0, 360)));
+        // Vector2 spawnPos = new Vector2(-3,-3);
+        // GameObject entity = Instantiate(prefab, spawnPos, Quaternion.Euler(0, 0, 0));
         return entity;
     }
 }

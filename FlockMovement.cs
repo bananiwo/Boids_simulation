@@ -81,9 +81,9 @@ public class FlockMovement : MonoBehaviour
         foreach(var entity in m_entities)
         {
             Rigidbody2D rb = entity.GetComponent<Rigidbody2D>();
-            // Vector2 newVelocity = rb.velocity + m_weightWander * wander(entity) + m_weightAllign * allignToFlock(entity) + m_weightCenter * centerToFlock(entity) + m_weightKeepDistance * keepDistanceInFlock(entity);
+            Vector2 velocityChange = rb.velocity + m_weightWander * wander(entity) + m_weightAllign * allignToFlock(entity) + m_weightCenter * centerToFlock(entity) + m_weightKeepDistance * keepDistanceInFlock(entity);
 
-            Vector2 velocityChange = rb.velocity +  m_obstacleAvoidanceWeight * obstacleAvoidance(entity);
+            velocityChange += m_obstacleAvoidanceWeight * obstacleAvoidance(entity);
                      
             velocityChange = regulateVelocityMinMax(velocityChange);
             rb.velocity = velocityChange;

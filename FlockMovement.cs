@@ -5,9 +5,7 @@ using UnityEngine.UI;
 
 public class FlockMovement : MonoBehaviour
 
-{
-    public Text textfield;
-    
+{   
     [Header("Flock settings")]
     [Range(0, 150)] public int m_entitiesCount = 1;
     public GameObject m_prefab;
@@ -18,14 +16,11 @@ public class FlockMovement : MonoBehaviour
     protected float m_maxSpeed = 3;
     [SerializeField][Range(0f, 5f)]
     protected float m_minSpeed = 1f;
-    [SerializeField] [Range(0f, 3f)]
-    protected float m_rimAvoidanceCoeff = 0.5f;
+    public bool showDirection = false;
 
     [Header("Obstacle avoidance settings")]
     [SerializeField] [Range(0f, 10f)]
     private float m_obstacleAvoidanceWeight = 3f;
-    [SerializeField] [Range(0.1f, 10f)]
-    private float m_obstacleAvoidanceSmoothness = 1f;
 
     [Header("Wander settings")]
     [SerializeField] [Range(0.1f, 10f)]
@@ -45,7 +40,6 @@ public class FlockMovement : MonoBehaviour
     private float m_weightKeepDistance = 0.1f;
 
     private List<GameObject> m_entities;
-        BasicMovement movementScript;
 
     void Start()
     {
@@ -53,76 +47,58 @@ public class FlockMovement : MonoBehaviour
         for(int i=0; i<m_entitiesCount; i++)
         {
             GameObject entity = spawnEntity(m_prefab);
-            entity.GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(-m_maxSpeed, m_maxSpeed),Random.Range(-m_maxSpeed, m_maxSpeed));
+            entity.GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
+            // entity.GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(-m_maxSpeed, m_maxSpeed),Random.Range(-m_maxSpeed, m_maxSpeed));
             m_entities.Add(entity);
         }
     }
     
-    ////////////////////////////// LICZNIK KIERUNKU RYB
     void Update()
     {
-        int left=0;
-        int right=0;
-        int up=0;
-        int down=0;
-        foreach(var e in m_entities){
-            Rigidbody2D rb = e.GetComponent<Rigidbody2D>();
-            if(rb.velocity.x > 0) right++;
-            if(rb.velocity.x < 0) left++;
-            if(rb.velocity.y > 0) up++;
-            if(rb.velocity.y < 0) down++;
+        if(showDirection){
+            foreach(var entity in m_entities){
+                var rb = entity.GetComponent<Rigidbody2D>();
+                Debug.DrawLine(entity.transform.position, (Vector2)entity.transform.position + rb.velocity , Color.yellow);
+            }
         }
-        textfield.text = "left " + left + " | right " + right + " | up " + up + " | down " + down;
     }
-    //////////////////////////////
+
+
 
     void FixedUpdate()
     {
         foreach(var entity in m_entities)
         {
             Rigidbody2D rb = entity.GetComponent<Rigidbody2D>();
-            Vector2 velocityChange = rb.velocity + m_weightWander * wander(entity) + m_weightAllign * allignToFlock(entity) + m_weightCenter * centerToFlock(entity) + m_weightKeepDistance * keepDistanceInFlock(entity);
-
-            velocityChange += m_obstacleAvoidanceWeight * obstacleAvoidance(entity);
-                     
+            
+            Vector2 velocityChange = rb.velocity;
+            velocityChange += m_weightWander * wander(entity);
+            velocityChange += m_weightAllign * allignToFlock(entity);
+            velocityChange += m_weightCenter * centerToFlock(entity);
+            velocityChange += m_weightKeepDistance * keepDistanceInFlock(entity);
+            velocityChange += m_obstacleAvoidanceWeight * obstacleAvoidance(entity);  
             velocityChange = regulateVelocityMinMax(velocityChange);
             rb.velocity = velocityChange;
             faceTowardsVelocity(entity);
-            stayInCamera(entity);
+            teleportWhenOnRim(entity);
         }
     }
 
     protected Vector2 obstacleAvoidance(GameObject entity)
     {
-        movementScript = entity.GetComponent<BasicMovement>();
-        if(movementScript.getObstacleDetected() == Obstacle.N)
+        FieldOfView fow = entity.GetComponent<FieldOfView>();
+        if(fow.checkForCollisionAhead())
         {
-            movementScript.resetObstacleAvoidanceTimer();
+            return fow.findUnobstructedDirection();
+        }else{
             return Vector2.zero;
         }
-        Rigidbody2D rb = entity.GetComponent<Rigidbody2D>(); 
-
-        Debug.Log("UNIK W PRAWO");
-        Vector2 initialVelocity = movementScript.getInitialVelocityOnTargetDetection();
-        Vector2 steer = new Vector2(initialVelocity.y, -initialVelocity.x).normalized;
-        if(movementScript.getObstacleDetected() == Obstacle.R){
-            Debug.Log("UNIK W LEWO");
-            steer *= -1;
-        }
-        movementScript.incrementObstacleAvoidanceTimer();
-        Vector2 smoothSteer = Vector2.Lerp(Vector2.zero, steer * m_obstacleAvoidanceWeight, movementScript.getObstacleAvoidanceTimer() / m_obstacleAvoidanceSmoothness);
-        return smoothSteer;
-
-
-        // jesli udalo sie osiagnac wektor predkosci rowny poczatkowemu, to poczekaj pol sekundy i
-        // movementScript.setObstacleDetected(Obstacle.N);
     }
 
 
-
-    private void stayInCamera(GameObject entity) // teleport
+    private void teleportWhenOnRim(GameObject entity) // teleport
     {
-        float coeff = 0.9f;
+        float coeff = 1.0f;
         Transform trans = entity.transform;
         Vector2 position = entity.transform.position;
         if(position.x > m_width * coeff)
@@ -257,29 +233,6 @@ public class FlockMovement : MonoBehaviour
         return new Vector2(-regulatedPerinNoiseX, regulatedPerinNoiseY).normalized;
     }
 
-    protected Vector2 avoidOuterRim(GameObject entity)
-    {
-        Rigidbody2D rb = entity.GetComponent<Rigidbody2D>();
-        BasicMovement script = entity.GetComponent<BasicMovement>();
-        float velocityX = rb.velocity.x;
-        float velocityY = rb.velocity.y;
-        Vector2 result = new Vector2(0f, 0f);
-        if(script.isTouchingOuterRimTop())
-        {
-            float vY = velocityY - m_rimAvoidanceCoeff;
-            result = new Vector2(vY, velocityX);
-        }
-        if(script.isTouchingOuterRimBottom())
-        {
-            float vY = velocityY + m_rimAvoidanceCoeff;
-            result = new Vector2(vY, velocityX);
-        }
-        
-
-        return result;
-    }
-
-
     protected Vector2 regulateVelocityMinMax(Vector2 vel)
     {
         if(vel.magnitude < 0.7f * m_minSpeed){
@@ -310,7 +263,7 @@ public class FlockMovement : MonoBehaviour
         Vector2 spawnPos = new Vector2(Random.Range(-m_width, m_width), Random.Range(-m_height, m_height)) * avoidRimSpawnCoefficient;
         GameObject entity = Instantiate(prefab, spawnPos, Quaternion.Euler(0, 0, Random.Range(0, 360)));
         // Vector2 spawnPos = new Vector2(-3,-3);
-        // GameObject entity = Instantiate(prefab, spawnPos, Quaternion.Euler(0, 0, 0));
+        // GameObject entity = Instantiate(prefab, spawnPos, Quaternion.Euler(0, 0, 30));
         return entity;
     }
 }

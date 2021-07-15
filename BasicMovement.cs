@@ -52,7 +52,7 @@ public class BasicMovement : MonoBehaviour
         m_wanderTimer += Time.fixedDeltaTime;
     }
 
-   virtual protected void OnTriggerEnter2D(Collider2D other)
+  /* virtual protected void OnTriggerEnter2D(Collider2D other)
    {
        Collider2D targetCol = other.gameObject.GetComponent<Collider2D>();
         if((m_isObstacleDetected == Obstacle.N) && (targetCol.tag == "Obstacle"))
@@ -88,9 +88,9 @@ public class BasicMovement : MonoBehaviour
         else if(other.tag == "Fish"){
             closebyFish.Add(other.gameObject);
        }
-   }
+   }*/
    
-    virtual protected void OnTriggerExit2D(Collider2D other)
+    /*virtual protected void OnTriggerExit2D(Collider2D other)
     {
         Collider2D targetCol = other.gameObject.GetComponent<Collider2D>();
         if((targetCol.tag == "Obstacle") && (m_isObstacleDetected != Obstacle.N))
@@ -117,7 +117,7 @@ public class BasicMovement : MonoBehaviour
        if(other.tag == "Fish"){
             closebyFish.Remove(other.gameObject);
         }
-    }
+    }*/
     public List<GameObject> getClosebyFish()
     {
         return closebyFish;

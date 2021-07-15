@@ -14,8 +14,7 @@ GameObject:
   - component: {fileID: 4749107803741841212}
   - component: {fileID: 5384119805615265291}
   - component: {fileID: -3829818945398868434}
-  - component: {fileID: 2692194536519956216}
-  - component: {fileID: 8523813214658227832}
+  - component: {fileID: 5259444491492431295}
   m_Layer: 0
   m_Name: Fish
   m_TagString: Fish
@@ -155,41 +154,23 @@ MonoBehaviour:
   m_wanderTimer: 0
   detectedObstaclesList: []
   m_isObstacleDetected: 0
-  m_colLeft: {fileID: 2692194536519956216}
-  m_colRight: {fileID: 8523813214658227832}
---- !u!68 &2692194536519956216
-EdgeCollider2D:
+  m_colLeft: {fileID: 0}
+  m_colRight: {fileID: 0}
+--- !u!114 &5259444491492431295
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4629790010104676412}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.6, y: 2.5}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: 0, y: 0}
-  - {x: 11, y: 0}
---- !u!68 &8523813214658227832
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4629790010104676412}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.6, y: -2.5}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: 0, y: 0}
-  - {x: 11, y: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2305ab6c9c788c547bf392868cbf50ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_viewRadius: 2
+  m_viewAngle: 103
+  m_meshResolution: 0.3
+  m_obstacleMask:
+    serializedVersion: 2
+    m_Bits: 256

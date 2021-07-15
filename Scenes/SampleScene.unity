@@ -1316,22 +1316,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textfield: {fileID: 1337393105}
-  m_entitiesCount: 5
+  m_entitiesCount: 10
   m_prefab: {fileID: 4629790010104676412, guid: 9cb88580e315da44194596419a0cce72,
     type: 3}
   m_width: 5.5
   m_height: 4.2
-  m_maxSpeed: 2.92
-  m_minSpeed: 1.77
+  m_maxSpeed: 2.89
+  m_minSpeed: 1.96
   m_rimAvoidanceCoeff: 1.79
-  m_obstacleAvoidanceWeight: 1.13
+  m_obstacleAvoidanceWeight: 2.49
   m_obstacleAvoidanceSmoothness: 4.53
+  m_obstacleDetectionDst: 3
+  m_obstacleDetectionAngle: 180
   m_wanderSmoothness: 2.14
-  m_weightWander: 0
+  m_weightWander: 0.039
   m_minDistance: 1
   m_weightAllign: 0.33
   m_weightCenter: 0.3
   m_weightKeepDistance: 0.4
+  finalPos: {fileID: 0}
 --- !u!4 &2110504809
 Transform:
   m_ObjectHideFlags: 0

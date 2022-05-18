@@ -170,7 +170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_viewRadius: 2
   m_viewAngle: 103
-  m_meshResolution: 0.3
+  m_meshResolution: 0.0001
   m_obstacleMask:
     serializedVersion: 2
     m_Bits: 256
